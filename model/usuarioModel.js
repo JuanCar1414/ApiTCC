@@ -5,26 +5,26 @@ const UsuarioModel = new mongoose.Schema(
     {
         Email: String,
         Senha: String,
-        NomeUsuario: String,
+        NomeUsuario: { type: String, required: true, unique: true },
         Perfil: {
-            Ganhos: {
+            Ganhos: [{
                 Valor: Number,
                 Nome: String,
                 Descricao: String,
                 Mes: String,
-            },
-            Gastos: {
+            }],
+            Gastos: [{
                 Valor: Number,
                 Nome: String,
                 Descricao: String,
                 Tipo: String,
                 Mes: String,
-            },
-            Vencimento: {
+            }],
+            Vencimento: [{
                 Conta: String,
                 isVencimento: Boolean,
                 Vencimento: String,
-            }
+            }]
         }
     }
 )

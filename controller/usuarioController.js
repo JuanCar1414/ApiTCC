@@ -1,4 +1,3 @@
-const { json } = require('express');
 const Usuario = require('../model/usuarioModel');
 const bcrypt = require('bcrypt');
 
@@ -42,7 +41,7 @@ exports.LogarUsuario = async (req, res) => {
         console.error('Erro ao logar usuário:', err);
         res.status(500).json({ message: "Erro interno do servidor", err });
     }
-};
+}
 
 exports.EditarNome = async (req, res) => {
     const { Email, NomeUsuario } = req.body;  // Certifique-se de que o `Email` está sendo passado na solicitação
@@ -70,7 +69,98 @@ exports.EditarNome = async (req, res) => {
         console.error('Erro ao atualizar o nome:', err);
         res.status(500).json({ msg: 'Erro ao atualizar o nome' });
     }
-};
+}
 
+exports.AddGanho = async (req, res) => {
+    const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
+    const ganhosNew = req.body; // Os novos dados para Ganhos
+
+    try {
+        // Atualizar apenas o objeto Ganhos no documento do usuário identificado pelo e-mail
+        const usuarioAtualizado = await Usuario.findOneAndUpdate(
+            { NomeUsuario: NomeUsuario }, // Encontrar o usuário pelo campo Email
+            { $push: { 'Perfil.Ganhos': ganhosNew } }, // Atualizar o campo Ganhos
+            { new: true, runValidators: true } // Retorna o documento atualizado e valida os dados
+        );
+
+        if (!usuarioAtualizado) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+
+        res.json(usuarioAtualizado);
+    } catch (error) {
+        console.error('Erro ao atualizar o objeto Ganhos:', error);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+}
+
+exports.AddGasto = async (req, res) => {
+    const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
+    const gastosNew = req.body; // Os novos dados para Ganhos
+
+    try {
+        // Atualizar apenas o objeto Ganhos no documento do usuário identificado pelo e-mail
+        const usuarioAtualizado = await Usuario.findOneAndUpdate(
+            { NomeUsuario: NomeUsuario }, // Encontrar o usuário pelo campo Email
+            { $push: { 'Perfil.Gastos': gastosNew } }, // Atualizar o campo Ganhos
+            { new: true, runValidators: true } // Retorna o documento atualizado e valida os dados
+        );
+
+        if (!usuarioAtualizado) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+
+        res.json(usuarioAtualizado);
+    } catch (error) {
+        console.error('Erro ao atualizar o objeto Gastos:', error);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+}
+
+exports.AddVencimento = async (req, res) => {
+    const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
+    const VencimentoNew = req.body; // Os novos dados para Ganhos
+
+    try {
+        // Atualizar apenas o objeto Ganhos no documento do usuário identificado pelo e-mail
+        const usuarioAtualizado = await Usuario.findOneAndUpdate(
+            { NomeUsuario: NomeUsuario }, // Encontrar o usuário pelo campo Email
+            { $push: { 'Perfil.Vencimento': VencimentoNew } }, // Atualizar o campo Ganhos
+            { new: true, runValidators: true } // Retorna o documento atualizado e valida os dados
+        );
+
+        if (!usuarioAtualizado) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+
+        res.json(usuarioAtualizado);
+    } catch (error) {
+        console.error('Erro ao atualizar o objeto Gastos:', error);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+}
+
+exports.VerGanhos = async (req, res) => {
+    const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
+    const ganhosNew = req.body; // Os novos dados para Ganhos
+
+    try {
+        // Atualizar apenas o objeto Ganhos no documento do usuário identificado pelo e-mail
+        const usuarioAtualizado = await Usuario.findOneAndUpdate(
+            { NomeUsuario: NomeUsuario }, // Encontrar o usuário pelo campo Email
+            { $push: { 'Perfil.Ganhos': ganhosNew } }, // Atualizar o campo Ganhos
+            { new: true, runValidators: true } // Retorna o documento atualizado e valida os dados
+        );
+
+        if (!usuarioAtualizado) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
+
+        res.json(usuarioAtualizado);
+    } catch (error) {
+        console.error('Erro ao atualizar o objeto Ganhos:', error);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+}
 
 
