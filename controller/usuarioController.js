@@ -2,6 +2,8 @@ const Usuario = require('../model/usuarioModel');
 const bcrypt = require('bcrypt');
 
 exports.CriarUsuario = async (req, res) => {
+
+    //Nao aceita todos os calores logo de cara, os dados de gasto, vencimento e ganhos devem ser executado de maneira individual em cada rota
     const { Email, Senha, NomeUsuario } = req.body;
     try {
         const jaExiste = await Usuario.findOne({ Email });
@@ -140,26 +142,29 @@ exports.AddVencimento = async (req, res) => {
     }
 }
 
-exports.VerGanhos = async (req, res) => {
+exports.VerUsuarioTeste = async (req, res) => {
     const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
-    const ganhosNew = req.body; // Os novos dados para Ganhos
-
     try {
-        // Atualizar apenas o objeto Ganhos no documento do usuário identificado pelo e-mail
-        const usuarioAtualizado = await Usuario.findOneAndUpdate(
-            { NomeUsuario: NomeUsuario }, // Encontrar o usuário pelo campo Email
-            { $push: { 'Perfil.Ganhos': ganhosNew } }, // Atualizar o campo Ganhos
-            { new: true, runValidators: true } // Retorna o documento atualizado e valida os dados
-        );
+        const usuarioLocal = await Usuario.findOne({ NomeUsuario });
+        const emailLocal = usuarioLocal.Email;
+        const perfilLocal = usuarioLocal.Perfil;
 
-        if (!usuarioAtualizado) {
-            return res.status(404).json({ message: 'Usuário não encontrado' });
-        }
+        res.status(200).json({ NomeUsuario, emailLocal, perfilLocal });
+    } catch (err) {
+        res.status(404).json({ massage: "Usuario nao achado", err });
+    }
+}
 
-        res.json(usuarioAtualizado);
-    } catch (error) {
-        console.error('Erro ao atualizar o objeto Ganhos:', error);
-        res.status(500).json({ message: 'Erro interno do servidor' });
+exports.VerUsuario = async (req, res) => {
+    const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
+    try {
+        const usuarioLocal = await Usuario.findOne({ NomeUsuario });
+        const emailLocal = usuarioLocal.Email;
+        const perfilLocal = usuarioLocal.Perfil;
+
+        res.status(200).json({ NomeUsuario, emailLocal, perfilLocal });
+    } catch (err) {
+        res.status(404).json({ massage: "Usuario nao achado", err });
     }
 }
 

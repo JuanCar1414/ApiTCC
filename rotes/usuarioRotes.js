@@ -1,5 +1,5 @@
-const Router = require('express').Router(); 
-const usuarioLogicas =  require('../controller/usuarioController')
+const Router = require('express').Router();
+const usuarioLogicas = require('../controller/usuarioController')
 
 
 Router.post('/cadastro', usuarioLogicas.CriarUsuario);
@@ -9,6 +9,8 @@ Router.put('/atualizar-nome', usuarioLogicas.EditarNome);
 Router.post('/:NomeUsuario/ganhos', usuarioLogicas.AddGanho);
 Router.post('/:NomeUsuario/gastos', usuarioLogicas.AddGasto);
 Router.post('/:NomeUsuario/vencimento', usuarioLogicas.AddVencimento);
+
+Router.get('/:NomeUsuario/visualizar', usuarioLogicas.VerUsuarioTeste);
 
 module.exports = Router;
 
