@@ -142,14 +142,43 @@ exports.AddVencimento = async (req, res) => {
     }
 }
 
-exports.VerUsuarioTeste = async (req, res) => {
+exports.VerGastos = async (req, res) => {
     const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
     try {
         const usuarioLocal = await Usuario.findOne({ NomeUsuario });
         const emailLocal = usuarioLocal.Email;
         const perfilLocal = usuarioLocal.Perfil;
+        const { Gastos } = perfilLocal;
 
-        res.status(200).json({ NomeUsuario, emailLocal, perfilLocal });
+        res.status(200).json({ NomeUsuario, emailLocal, Gastos });
+    } catch (err) {
+        res.status(404).json({ massage: "Usuario nao achado", err });
+    }
+}
+
+exports.VerGanhos = async (req, res) => {
+    const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
+    try {
+        const usuarioLocal = await Usuario.findOne({ NomeUsuario });
+        const emailLocal = usuarioLocal.Email;
+        const perfilLocal = usuarioLocal.Perfil;
+        const { Ganhos } = perfilLocal;
+
+        res.status(200).json({ NomeUsuario, emailLocal, Ganhos });
+    } catch (err) {
+        res.status(404).json({ massage: "Usuario nao achado", err });
+    }
+}
+
+exports.VerVencimentos = async (req, res) => {
+    const NomeUsuario = req.params.NomeUsuario; // O e-mail do usuário passado como parâmetro
+    try {
+        const usuarioLocal = await Usuario.findOne({ NomeUsuario });
+        const emailLocal = usuarioLocal.Email;
+        const perfilLocal = usuarioLocal.Perfil;
+        const { Vencimentos } = perfilLocal;
+
+        res.status(200).json({ NomeUsuario, emailLocal, Vencimentos });
     } catch (err) {
         res.status(404).json({ massage: "Usuario nao achado", err });
     }
