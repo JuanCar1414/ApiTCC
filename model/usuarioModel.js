@@ -24,7 +24,20 @@ const UsuarioModel = new mongoose.Schema(
                 Conta: String,
                 isVencimento: Boolean,
                 Vencimento: String,
-            }]
+            }],
+            Metas: [{
+                Dia: Date,
+                Horario: String,
+                Nome: String,
+                Descricao: String
+
+            }],
+            Tarefa: [{
+                Dia: Date,
+                Horario: String,
+                Nome: String,
+                Descricao: String
+            }],
         }
     }
 )
