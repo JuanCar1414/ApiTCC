@@ -458,17 +458,20 @@ exports.EsquecerSenha = async (req, res) => {
     const { Email, Senha } = req.body;
 
     try {
+        // Busca o usuário pelo email
         const UsuarioLocal = await Usuario.findOne({ Email });
 
         if (!UsuarioLocal) {
             return res.status(404).json({ message: "Usuário não encontrado" });
-        };
+        }
 
+        // Criptografa a nova senha
         const SenhaRashed = await bcrypt.hash(Senha, 10);
 
+        // Atualiza a senha do usuário
         const UsuarioNovo = await Usuario.findOneAndUpdate(
-            { UsuarioLocal },
-            { $set: { 'Senha': SenhaRashed } },
+            { Email }, // Busca pelo Email do usuário
+            { $set: { Senha: SenhaRashed } },
             { new: true, runValidators: true }
         );
 
@@ -477,4 +480,4 @@ exports.EsquecerSenha = async (req, res) => {
         console.error(err);
         res.status(500).json({ message: 'Erro interno do servidor', err });
     }
-}
+};
